@@ -1,6 +1,7 @@
 package net.doyaaa;
 
 import java.io.File;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,13 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.util.Log;
-import android.widget.ImageView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -118,8 +116,15 @@ public class DoyaaaActivity extends Activity {
   private final Bitmap makeDoyaa(Bitmap baseBitmap){
 
     //TODO bitmapをランダムに読み込む
+    int[] effects = new int[]{
+      R.drawable.fire,
+      R.drawable.gokou,
+      R.drawable.sample,
+    };
     Bitmap overlayBitmap =
-      BitmapFactory.decodeResource(getResources(), R.drawable.sample);
+      BitmapFactory.decodeResource(getResources(),
+          effects[ new Random().nextInt(effects.length)]
+      );
 
     baseBitmap = baseBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
