@@ -14,8 +14,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Log;
 import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class DoyaaaActivity extends Activity {
@@ -29,12 +35,31 @@ public class DoyaaaActivity extends Activity {
 
   Uri mImageUri = null;
 
+  // ツイッターを起動するためのダミーボタン
+  private Button tweetButton;
+
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
+    tweetButton = (Button)findViewById(R.id.tweetButton);
+    tweetButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String tweet ="つぶやきテスト";
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, tweet);
+            intent.setType("text/plain");
+            intent.setPackage("jp.r246.twicca");
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "twiccaきめうち", Toast.LENGTH_SHORT);
+            }
+        }
+    });
     onExtraClick();
 
   }
