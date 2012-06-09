@@ -126,6 +126,7 @@ public class DoyaaaActivity extends Activity {
       R.drawable.gokou,
       R.drawable.sample,
       R.drawable.dododo,
+      R.drawable.flash,
     };
     Bitmap overlayBitmap =
       BitmapFactory.decodeResource(getResources(),
