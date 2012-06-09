@@ -49,7 +49,8 @@ public class DoyaaaActivity extends Activity {
             String tweet ="つぶやきテスト";
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, tweet);
-            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///android_asset/doya_face.jpg"));
+            intent.setType("image/jpeg");
             intent.setPackage("jp.r246.twicca");
             try {
                 startActivity(intent);
