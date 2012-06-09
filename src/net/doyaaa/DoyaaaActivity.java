@@ -122,11 +122,13 @@ public class DoyaaaActivity extends Activity {
 
     //TODO bitmapをランダムに読み込む
     int[] effects = new int[]{
-      R.drawable.fire,
-      R.drawable.gokou,
-      R.drawable.sample,
-      R.drawable.dododo,
-      R.drawable.flash,
+        R.drawable.dododo,
+        R.drawable.fire,
+        R.drawable.flash,
+        R.drawable.galaxy,
+        R.drawable.gokou,
+        R.drawable.inazuma,
+        R.drawable.sample,
     };
     Bitmap overlayBitmap =
       BitmapFactory.decodeResource(getResources(),
