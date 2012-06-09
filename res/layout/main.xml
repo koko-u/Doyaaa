@@ -17,4 +17,10 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
+    <Button
+        android:id="@+id/tweetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tweet_test" />
+
 </LinearLayout>
