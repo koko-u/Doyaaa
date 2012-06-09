@@ -6,11 +6,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 
 
 public class DoyaaaActivity extends Activity {
@@ -20,7 +25,7 @@ public class DoyaaaActivity extends Activity {
   private static final String FILE_NAME = "Doyaa.jpg";
   private static final int CAMERA_RESULT = 1000;
 
-  private static final int MAX_SIZE = 1024;
+  private static final int MAX_SIZE = 640;
 
   Uri mImageUri = null;
 
@@ -75,7 +80,39 @@ public class DoyaaaActivity extends Activity {
 
       Log.d(TAG, "pic:" + pic.getWidth() + ":" + pic.getHeight() );
 
+      Bitmap doyaadBitmap = makeDoyaa(pic);
+
+      ImageView iv = ((ImageView) findViewById(R.id.imageView1) );
+      iv.setImageDrawable(new BitmapDrawable(doyaadBitmap));
+
+
     }
 
   }
+
+  private final Bitmap makeDoyaa(Bitmap baseBitmap){
+
+    //TODO bitmapをランダムに読み込む
+    Bitmap overlayBitmap =
+      BitmapFactory.decodeResource(getResources(), R.drawable.sample);
+
+    baseBitmap = baseBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+    Log.d(TAG, "ol:" + overlayBitmap.getWidth() + ":" + overlayBitmap.getHeight() );
+
+    Paint paint = new Paint();
+    paint.setAntiAlias(true);
+    Canvas c = new Canvas(baseBitmap);
+
+    c.drawBitmap(
+        overlayBitmap,
+        new Rect(0, 0, overlayBitmap.getWidth(), overlayBitmap.getHeight() ),
+        new Rect(0, 0, baseBitmap.getWidth(), baseBitmap.getHeight() ),
+        paint
+    );
+
+    return baseBitmap;
+  }
+
+
 }
