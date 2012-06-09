@@ -12,15 +12,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -46,27 +43,6 @@ public class DoyaaaActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    tweetButton = (Button)findViewById(R.id.tweetButton);
-    tweetButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String tweet ="どやぁ";
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, tweet);
-            String fileName = "file://" + Environment.getExternalStorageDirectory() + "/" + EFFECTED_FILE_NAME;
-            intent.putExtra(
-                Intent.EXTRA_STREAM,
-                Uri.parse(fileName)
-            );
-            intent.setType("image/jpeg");
-            intent.setPackage("jp.r246.twicca");
-            try {
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "twiccaきめうち", Toast.LENGTH_SHORT);
-            }
-        }
-    });
     onExtraClick();
 
   }
@@ -135,8 +111,8 @@ public class DoyaaaActivity extends Activity {
         Log.e("Error", "" + e.toString());
       }
 
-      ImageView iv = ((ImageView) findViewById(R.id.imageView1) );
-      iv.setImageDrawable(new BitmapDrawable(doyaadBitmap));
+      intentToTwicca();
+      finish();
 
     }
 
@@ -174,5 +150,22 @@ public class DoyaaaActivity extends Activity {
     return baseBitmap;
   }
 
+  private final void intentToTwicca(){
+    String tweet ="どやぁ";
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.putExtra(Intent.EXTRA_TEXT, tweet);
+    String fileName = "file://" + Environment.getExternalStorageDirectory() + "/" + EFFECTED_FILE_NAME;
+    intent.putExtra(
+        Intent.EXTRA_STREAM,
+        Uri.parse(fileName)
+    );
+    intent.setType("image/jpeg");
+    intent.setPackage("jp.r246.twicca");
+    try {
+      startActivity(intent);
+    } catch (Exception e) {
+      Toast.makeText(getApplicationContext(), "twiccaきめうち", Toast.LENGTH_SHORT);
+    }
+  }
 
 }
