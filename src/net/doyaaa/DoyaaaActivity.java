@@ -1,10 +1,13 @@
 package net.doyaaa;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,13 +17,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.util.Log;
-import android.widget.ImageView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -29,6 +29,8 @@ public class DoyaaaActivity extends Activity {
   private static final String TAG = "DOYAA";
 
   private static final String FILE_NAME = "Doyaa.jpg";
+  private static final String EFFECTED_FILE_NAME = "DoyaaEffect.jpg";
+
   private static final int CAMERA_RESULT = 1000;
 
   private static final int MAX_SIZE = 640;
@@ -48,10 +50,15 @@ public class DoyaaaActivity extends Activity {
     tweetButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String tweet ="つぶやきテスト";
+            String tweet ="どやぁ";
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, tweet);
-            intent.setType("text/plain");
+            String fileName = "file://" + Environment.getExternalStorageDirectory() + "/" + EFFECTED_FILE_NAME;
+            intent.putExtra(
+                Intent.EXTRA_STREAM,
+                Uri.parse(fileName)
+            );
+            intent.setType("image/jpeg");
             intent.setPackage("jp.r246.twicca");
             try {
                 startActivity(intent);
@@ -107,9 +114,29 @@ public class DoyaaaActivity extends Activity {
 
       Bitmap doyaadBitmap = makeDoyaa(pic);
 
+      //どや画像を保存( どやぁ!
+      try {
+        // sdcardフォルダを指定
+        File root = Environment.getExternalStorageDirectory();
+
+        // 日付でファイル名を作成
+
+        // 保存処理開始
+        FileOutputStream fos = null;
+        fos = new FileOutputStream(new File(root, EFFECTED_FILE_NAME));
+
+        // jpegで保存
+        doyaadBitmap.compress(CompressFormat.JPEG, 100, fos);
+
+        // 保存処理終了
+        fos.close();
+
+      } catch (Exception e) {
+        Log.e("Error", "" + e.toString());
+      }
+
       ImageView iv = ((ImageView) findViewById(R.id.imageView1) );
       iv.setImageDrawable(new BitmapDrawable(doyaadBitmap));
-
 
     }
 
@@ -118,8 +145,15 @@ public class DoyaaaActivity extends Activity {
   private final Bitmap makeDoyaa(Bitmap baseBitmap){
 
     //TODO bitmapをランダムに読み込む
+    int[] effects = new int[]{
+      R.drawable.fire,
+      R.drawable.gokou,
+      R.drawable.sample,
+    };
     Bitmap overlayBitmap =
-      BitmapFactory.decodeResource(getResources(), R.drawable.sample);
+      BitmapFactory.decodeResource(getResources(),
+          effects[ new Random().nextInt(effects.length)]
+      );
 
     baseBitmap = baseBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
